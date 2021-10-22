@@ -14,7 +14,7 @@ const addressSchema = mongoose.Schema({
         required: true
     },
     pincode: {
-        type: String,
+        type: Number,
         required: true
     }
 })
@@ -31,7 +31,21 @@ const centerSchema = mongoose.Schema({
         required: true,
         max: 12,
         min: 12
-    }, address: addressSchema,
+    }, address: {
+        fullAddress: {
+            type: String,
+            required: true
+        }, city: {
+            type: String,
+            required: true
+        }, state: {
+            type: String,
+            required: true
+        }, pincode: {
+            type: String,
+            required: true
+        }
+    },
     studentCapacity: {
         type: Number,
         required: true
@@ -47,16 +61,14 @@ const centerSchema = mongoose.Schema({
             }
         }
     }, contactPhone: {
-        type: Number,
-        validate(value) {
-            if (!validator.isMobilePhone(value)) {
-                throw new Error('Phone is invalid.')
-            }
-        }
+        type: Number
     }
 })
 
 const Center = mongoose.model('Center', centerSchema)
 
-module.exports = Center
+module.exports = {
+    Center: Center,
+    Address: Address
+}
 
